@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Andreza Mackowiak — WordPress & Front-End Developer. Building beautiful, accessible, and performant websites." />
+  <title>Andreza Mackowiak | WordPress & Front-End Developer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ─── DESIGN TOKENS ─────────────────────────────────────────── */
+    :root {
+      --olive: #5a6e2b;
+      --olive-light: #7a943c;
+      --olive-dark: #3d4c1a;
+      --olive-tint: #e8eedc;
+      --orange: #e8651a;
+      --orange-light: #f0823d;
+      --orange-dark: #c04f0e;
+      --orange-tint: #fdf0e8;
+      --ink: #1a1c14;
+      --ink-soft: #3a3d2e;
+      --muted: #6b7250;
+      --surface: #fafaf7;
+      --white: #ffffff;
+      --border: #dde3c8;
+
+      --font-body: 'Inter', sans-serif;
+      --font-display: 'Syne', sans-serif;
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
+
+      --shadow-sm: 0 1px 4px rgba(0, 0, 0, .08);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, .10);
+      --shadow-lg: 0 12px 48px rgba(0, 0, 0, .14);
+
+      --transition: 0.3s cubic-bezier(.4, 0, .2, 1);
+      --nav-h: 72px;
+    }
+
+    /* ─── RESET ─────────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--surface);
+      color: var(--ink);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* ─── SKIP LINK (a11y) ──────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      z-index: 9999;
+      padding: .5rem 1.2rem;
+      background: var(--orange);
+      color: var(--white);
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      transition: top .2s;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    /* ─── FOCUS RING ────────────────────────────────────────────── */
+    :focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ─── NAVIGATION ────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(250, 250, 247, .92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow var(--transition);
+    }
+
+    .nav.scrolled {
+      box-shadow: var(--shadow-md);
+    }
+
+    .nav__inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .nav__logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: var(--olive-dark);
+      letter-spacing: -.02em;
+      white-space: nowrap;
+    }
+
+    .nav__logo span {
+      color: var(--orange);
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav__links a {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      letter-spacing: .02em;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color var(--transition);
+    }
+
+    .nav__links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--orange);
+      border-radius: var(--radius-pill);
+      transition: width var(--transition);
+    }
+
+    .nav__links a:hover,
+    .nav__links a.active {
+      color: var(--orange);
+    }
+
+    .nav__links a:hover::after,
+    .nav__links a.active::after {
+      width: 100%;
+    }
+
+    .nav__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .55rem 1.5rem !important;
+      background: var(--orange);
+      color: var(--white) !important;
+      font-weight: 600;
+      font-size: .875rem;
+      line-height: 1;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+      text-align: center;
+      vertical-align: middle;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 2px 8px rgba(232, 101, 26, .3);
+    }
+
+    .nav__cta::after {
+      display: none !important;
+    }
+
+    .nav__cta:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(232, 101, 26, .4);
+    }
+
+    /* hamburger */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: .4rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .nav__hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--ink-soft);
+      border-radius: 2px;
+      transition: transform var(--transition), opacity var(--transition), width var(--transition);
+      transform-origin: center;
+    }
+
+    .nav__hamburger[aria-expanded="true"] span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .nav__hamburger[aria-expanded="true"] span:nth-child(2) {
+      opacity: 0;
+      width: 0;
+    }
+
+    .nav__hamburger[aria-expanded="true"] span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* mobile menu */
+    .nav__mobile {
+      display: none;
+      position: fixed;
+      inset: var(--nav-h) 0 0 0;
+      background: rgba(250, 250, 247, .97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .nav__mobile.open {
+      display: flex;
+    }
+
+    .nav__mobile a {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--ink);
+      transition: color var(--transition);
+    }
+
+    .nav__mobile a:hover {
+      color: var(--orange);
+    }
+
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100svh;
+      padding: calc(var(--nav-h) + 3rem) 1.5rem 4rem;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* animated mesh background */
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .hero__bg::before {
+      content: '';
+      position: absolute;
+      width: 70vmax;
+      height: 70vmax;
+      top: -20vmax;
+      right: -20vmax;
+      background: radial-gradient(circle, rgba(90, 110, 43, .14) 0%, transparent 70%);
+      animation: float1 14s ease-in-out infinite alternate;
+    }
+
+    .hero__bg::after {
+      content: '';
+      position: absolute;
+      width: 50vmax;
+      height: 50vmax;
+      bottom: -10vmax;
+      left: -10vmax;
+      background: radial-gradient(circle, rgba(232, 101, 26, .10) 0%, transparent 70%);
+      animation: float2 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes float1 {
+      to {
+        transform: translate(-5%, 8%) scale(1.05);
+      }
+    }
+
+    @keyframes float2 {
+      to {
+        transform: translate(6%, -10%) scale(1.08);
+      }
+    }
+
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1140px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--olive);
+      background: var(--olive-tint);
+      padding: .4rem 1rem;
+      border-radius: var(--radius-pill);
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(90, 110, 43, .15);
+    }
+
+    .hero__eyebrow::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--olive);
+      border-radius: 50%;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(1.4);
+      }
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      letter-spacing: -.03em;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero__title .line {
+      display: block;
+    }
+
+    .hero__title .accent {
+      color: var(--orange);
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero__title .accent::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--orange), var(--olive-light));
+      border-radius: 2px;
+      opacity: .4;
+    }
+
+    .hero__sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .75rem 1.75rem;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: .9rem;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, .15);
+      transform: translateX(-100%);
+      transition: transform .4s;
+    }
+
+    .btn:hover::before {
+      transform: translateX(0);
+    }
+
+    .btn--primary {
+      background: var(--orange);
+      color: var(--white);
+      box-shadow: 0 4px 20px rgba(232, 101, 26, .35);
+    }
+
+    .btn--primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(232, 101, 26, .45);
+    }
+
+    .btn--ghost {
+      border: 2px solid var(--olive);
+      color: var(--olive-dark);
+    }
+
+    .btn--ghost:hover {
+      background: var(--olive);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* avatar / visual side */
+    .hero__visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .avatar-wrap {
+      position: relative;
+      width: 340px;
+      height: 340px;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 2px dashed rgba(90, 110, 43, .25);
+      animation: spin 30s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(232, 101, 26, .2);
+    }
+
+    .avatar-inner {
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--olive-tint) 0%, var(--orange-tint) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 6rem;
+      color: var(--olive);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* code pattern overlay */
+    .avatar-inner::after {
+      content: '< />';
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--orange);
+      opacity: .2;
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+
+    .avatar-badge {
+      position: absolute;
+      bottom: 10px;
+      right: -10px;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: .6rem 1rem;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--olive-dark);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .avatar-badge span {
+      color: var(--orange);
+      font-size: 1.1rem;
+    }
+
+    /* floating tech pills */
+    .hero__floats {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .float-pill {
+      position: absolute;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: .4rem .9rem;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      box-shadow: var(--shadow-sm);
+      white-space: nowrap;
+      animation: floatY 4s ease-in-out infinite alternate;
+    }
+
+    .float-pill:nth-child(1) {
+      top: 4%;
+      left: 10%;
+      animation-duration: 4.5s;
+    }
+
+    .float-pill:nth-child(2) {
+      top: 4%;
+      right: 6%;
+      animation-duration: 3.8s;
+      animation-delay: .5s;
+    }
+
+    .float-pill:nth-child(3) {
+      bottom: 8%;
+      left: 10%;
+      animation-duration: 5s;
+      animation-delay: 1s;
+    }
+
+    .float-pill:nth-child(4) {
+      bottom: 8%;
+      right: 6%;
+      animation-duration: 4.2s;
+      animation-delay: .2s;
+    }
+
+    @keyframes floatY {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-12px);
+      }
+    }
+
+    /* ─── SECTION BASE ──────────────────────────────────────────── */
+    section {
+      padding: 6rem 1.5rem;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: .75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 28px;
+      height: 2px;
+      background: var(--orange);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -.03em;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .section-head {
+      margin-bottom: 3.5rem;
+    }
+
+    /* reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s var(--transition), transform .6s var(--transition);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── ABOUT ─────────────────────────────────────────────────── */
+    #about {
+      background: var(--white);
+    }
+
+    .about__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about__text p {
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.75;
+    }
+
+    .about__text p:last-of-type {
+      margin-bottom: 2rem;
+    }
+
+    .about__stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 1.25rem;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .stat:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat__num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: .3rem;
+    }
+
+    .stat__label {
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* timeline-style experience */
+    .about__exp {
+      position: relative;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1.5rem;
+      position: relative;
+    }
+
+    .exp-item+.exp-item {
+      margin-top: 2rem;
+    }
+
+    .exp-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .exp-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--orange);
+      border: 3px solid var(--orange-tint);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .exp-line {
+      width: 2px;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--border), transparent);
+      margin-top: 6px;
+    }
+
+    .exp-body {
+      padding-bottom: 1rem;
+    }
+
+    .exp-role {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .exp-company {
+      font-size: .875rem;
+      color: var(--olive);
+      font-weight: 500;
+    }
+
+    .exp-period {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: .2rem;
+      margin-bottom: .5rem;
+    }
+
+    .exp-desc {
+      font-size: .875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── SKILLS ────────────────────────────────────────────────── */
+    #skills {
+      background: var(--surface);
+    }
+
+    .skills__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--olive-light);
+    }
+
+    .skill-card__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--olive-tint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card--orange .skill-card__icon {
+      background: var(--orange-tint);
+    }
+
+    .skill-card__title {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .tag {
+      font-size: .75rem;
+      font-weight: 500;
+      padding: .3rem .75rem;
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .skill-card:hover .tag {
+      background: var(--olive-tint);
+      border-color: var(--olive-light);
+      color: var(--olive-dark);
+    }
+
+    .skill-card--orange:hover .tag {
+      background: var(--orange-tint);
+      border-color: var(--orange-light);
+      color: var(--orange-dark);
+    }
+
+    /* ─── PROJECTS ──────────────────────────────────────────────── */
+    #projects {
+      background: var(--white);
+    }
+
+    .projects__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .project-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .project-card__thumb {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--olive-tint), var(--orange-tint));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card__thumb::after {
+      content: none;
+    }
+
+    .project-card__body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card__label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: .4rem;
+    }
+
+    .project-card__title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--ink);
+      margin-bottom: .5rem;
+    }
+
+    .project-card__desc {
+      font-size: .875rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .project-card__footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+
+    .project-card__footer .tag {
+      pointer-events: none;
+    }
+
+    /* placeholder card */
+    .project-card--placeholder .project-card__thumb {
+      background: repeating-linear-gradient(45deg,
+          var(--border),
+          var(--border) 1px,
+          transparent 1px,
+          transparent 20px);
+    }
+
+    .project-card--placeholder .project-card__thumb::after {
+      opacity: 1;
+      background: rgba(250, 250, 247, .8);
+      color: var(--muted);
+    }
+
+    /* ─── CONTACT ───────────────────────────────────────────────── */
+    #contact {
+      background: linear-gradient(135deg, var(--olive-dark) 0%, var(--ink) 100%);
+      color: var(--white);
+    }
+
+    #contact .section-label {
+      color: var(--orange-light);
+    }
+
+    #contact .section-label::before {
+      background: var(--orange-light);
+    }
+
+    #contact .section-title {
+      color: var(--white);
+    }
+
+    #contact .section-sub {
+      color: rgba(255, 255, 255, .65);
+    }
+
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact__links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact__link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: var(--radius-md);
+      color: var(--white);
+      transition: all var(--transition);
+    }
+
+    .contact__link:hover {
+      background: rgba(232, 101, 26, .2);
+      border-color: var(--orange-light);
+      transform: translateX(4px);
+    }
+
+    .contact__link svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: .7;
+    }
+
+    .contact__link:hover svg {
+      opacity: 1;
+    }
+
+    .contact__link-label {
+      font-size: .75rem;
+      color: rgba(255, 255, 255, .5);
+      font-weight: 500;
+      display: block;
+    }
+
+    .contact__link-val {
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    /* form */
+    .contact__form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .form-group label {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .6);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: var(--radius-sm);
+      padding: .75rem 1rem;
+      color: var(--white);
+      font: inherit;
+      font-size: .9rem;
+      transition: border-color var(--transition), background var(--transition);
+      resize: none;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, .3);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: rgba(255, 255, 255, .45);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: .8rem;
+    }
+
+    footer a {
+      color: var(--orange-light);
+      transition: color var(--transition);
+    }
+
+    footer a:hover {
+      color: var(--orange);
+    }
+
+    /* ─── BACK TO TOP ───────────────────────────────────────────── */
+    .back-top {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--orange);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity var(--transition), transform var(--transition), background var(--transition);
+    }
+
+    .back-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .back-top:hover {
+      background: var(--orange-dark);
+    }
+
+    .back-top svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero__inner {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .hero__visual {
+        display: none;
+      }
+
+      .about__grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .contact__grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .nav__links {
+        display: none;
+      }
+
+      .nav__hamburger {
+        display: flex;
+      }
+
+      section {
+        padding: 4rem 1rem;
+      }
+
+      .about__stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: .75rem;
+      }
+
+      .stat {
+        padding: 1rem .5rem;
+      }
+
+      .stat__num {
+        font-size: 1.5rem;
+      }
+
+      .avatar-wrap {
+        width: 240px;
+        height: 240px;
+      }
+
+      .avatar-inner {
+        width: 240px;
+        height: 240px;
+        font-size: 4rem;
+      }
+
+      .float-pill {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        min-height: auto;
+        padding-top: calc(var(--nav-h) + 2rem);
+      }
+
+      .hero__actions {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .about__stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Skip link -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ═══ NAV ════════════════════════════════════════════════════ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="#home" class="nav__logo" aria-label="Andreza Mackowiak — home">AM<span>.</span></a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact" class="nav__cta">
+            Hire Me
+          </a></li>
+      </ul>
+
+      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <nav id="mobile-menu" class="nav__mobile" aria-label="Mobile navigation" role="dialog" aria-modal="true">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- ═══ MAIN ════════════════════════════════════════════════════ -->
+  <main id="main">
+
+    <!-- ── HERO ── -->
+    <section id="home" class="hero" aria-label="Introduction">
+      <div class="hero__bg" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <div class="hero__content">
+          <div class="hero__eyebrow" aria-label="Available for work">Available for hire</div>
+
+          <h1 class="hero__title">
+            <span class="line">Hi, I'm</span>
+            <span class="line accent">Andreza</span>
+            <span class="line">Mackowiak</span>
+          </h1>
+
+          <p class="hero__sub">
+            WordPress &amp; Front-End Developer crafting fast, accessible, and visually compelling websites; from custom
+            themes to turning your Figma designs into a real, working website.
+          </p>
+
+          <div class="hero__actions">
+            <a href="#projects" class="btn btn--primary">
+              <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M9 17l-4-4 4-4M15 7l4 4-4 4" />
+              </svg>
+              View My Work
+            </a>
+            <a href="#contact" class="btn btn--ghost">
+              Let's Talk
+            </a>
+          </div>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+          <!-- floating tech pills -->
+          <div class="hero__floats">
+            <div class="float-pill">WordPress</div>
+            <div class="float-pill">CSS / Sass</div>
+            <div class="float-pill">PHP</div>
+            <div class="float-pill">JavaScript</div>
+          </div>
+
+          <div class="avatar-wrap">
+            <div class="avatar-ring" aria-hidden="true"></div>
+            <div class="avatar-inner" role="img" aria-label="Andreza Mackowiak monogram">AM</div>
+            <div class="avatar-badge">
+              <span>★</span> WordPress & Front-End Dev
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ABOUT ── -->
+    <section id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="about__grid">
+
+          <div class="about__text reveal">
+            <p class="section-label">About Me</p>
+            <h2 class="section-title" id="about-title">Developer with an eye for design</h2>
+            <p>
+              I'm a WordPress and Front-End Developer with a passion for building clean, user-friendly websites. I
+              combine solid technical skills with a strong design sensibility to deliver experiences that look great and
+              perform even better.
+            </p>
+            <p>
+              Whether it's a custom WordPress theme, a responsive landing page, or an accessible UI component, I take
+              pride in writing clean code and sweating the details.
+            </p>
+            <p>
+              I'm currently open to new opportunities - remote-friendly and ready to bring value from day one.
+            </p>
+            <a href="mailto:mackowiakandreza@gmail.com" class="btn btn--primary" style="width:fit-content;">
+              <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,12 2,6" />
+              </svg>
+              mackowiakandreza@gmail.com
+            </a>
+          </div>
+
+          <div class="about__exp reveal">
+            <p class="section-label">Experience</p>
+            <div class="exp-item">
+              <div class="exp-dot-col">
+                <div class="exp-dot"></div>
+                <div class="exp-line"></div>
+              </div>
+              <div class="exp-body">
+                <div class="exp-role">Associate WordPress Developer</div>
+                <div class="exp-company">SPARK Business Works · Remote</div>
+                <div class="exp-period">Aug 2024 – Present</div>
+                <div class="exp-desc">Build and maintain responsive front-end interfaces across client WordPress sites. Customize themes, integrate plugins, optimize performance through caching and minification, and apply on-page SEO fundamentals.</div>
+              </div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-dot-col">
+                <div class="exp-dot"></div>
+                <div class="exp-line"></div>
+              </div>
+              <div class="exp-body">
+                <div class="exp-role">Creative Media Specialist</div>
+                <div class="exp-company">Business Builders Marketing · Bloomington, IL</div>
+                <div class="exp-period">May 2022 – Jul 2024</div>
+                <div class="exp-desc">Managed and maintained client websites on WordPress and Joomla. Produced front-end and creative assets aligned with brand goals, collaborating with creative and account teams to deliver on deadline.</div>
+              </div>
+            </div>
+            <div class="exp-item">
+              <div class="exp-dot-col">
+                <div class="exp-dot"></div>
+              </div>
+              <div class="exp-body">
+                <div class="exp-role">Graduate Assistant, Web Designer</div>
+                <div class="exp-company">Illinois State University · Normal, IL</div>
+                <div class="exp-period">Jan 2021 – Dec 2022</div>
+                <div class="exp-desc">Designed and tested website interfaces, established design guidelines and best practices for university web properties, and maintained sites on WordPress.</div>
+              </div>
+            </div>
+            <div class="about__stats">
+              <div class="stat">
+                <div class="stat__num">4+</div>
+                <div class="stat__label">Years Experience</div>
+              </div>
+              <div class="stat">
+                <div class="stat__num">100%</div>
+                <div class="stat__label">Committed</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── SKILLS ── -->
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="section-label">What I Work With</p>
+          <h2 class="section-title" id="skills-title">Skills &amp; Technologies</h2>
+          <p class="section-sub">A focused toolkit built around WordPress and modern front-end development.</p>
+        </div>
+
+        <div class="skills__grid">
+
+          <article class="skill-card reveal" aria-label="WordPress skills">
+            <div class="skill-card__icon" aria-hidden="true">🔷</div>
+            <h3 class="skill-card__title">WordPress</h3>
+            <div class="skill-tags" role="list">
+              <span class="tag" role="listitem">Custom Themes</span>
+              <span class="tag" role="listitem">Plugin Development</span>
+              <span class="tag" role="listitem">WooCommerce</span>
+              <span class="tag" role="listitem">ACF</span>
+              <span class="tag" role="listitem">Elementor</span>
+              <span class="tag" role="listitem">Gutenberg</span>
+              <span class="tag" role="listitem">REST API</span>
+              <span class="tag" role="listitem">CPT (Custom Post Types)</span>
+            </div>
+          </article>
+
+          <article class="skill-card skill-card--orange reveal" aria-label="Front-end skills">
+            <div class="skill-card__icon" aria-hidden="true">🎨</div>
+            <h3 class="skill-card__title">Front-End</h3>
+            <div class="skill-tags" role="list">
+              <span class="tag" role="listitem">HTML5</span>
+              <span class="tag" role="listitem">CSS3 / Sass</span>
+              <span class="tag" role="listitem">JavaScript</span>
+              <span class="tag" role="listitem">Responsive Design</span>
+              <span class="tag" role="listitem">Accessibility (WCAG)</span>
+              <span class="tag" role="listitem">Tailwind CSS</span>
+              <span class="tag" role="listitem">Bootstrap</span>
+              <span class="tag" role="listitem">Git</span>
+            </div>
+          </article>
+
+          <article class="skill-card reveal" aria-label="Back-end and tools">
+            <div class="skill-card__icon" aria-hidden="true">⚙️</div>
+            <h3 class="skill-card__title">Back-End &amp; Tools</h3>
+            <div class="skill-tags" role="list">
+              <span class="tag" role="listitem">PHP</span>
+              <span class="tag" role="listitem">MySQL</span>
+              <span class="tag" role="listitem">GitHub</span>
+              <span class="tag" role="listitem">VS Code</span>
+              <span class="tag" role="listitem">Figma</span>
+              <span class="tag" role="listitem">cPanel</span>
+              <span class="tag" role="listitem">Google Analytics</span>
+              <span class="tag" role="listitem">SEO Basics</span>
+            </div>
+          </article>
+
+          <article class="skill-card skill-card--orange reveal" aria-label="Performance and UX">
+            <div class="skill-card__icon" aria-hidden="true">⚡</div>
+            <h3 class="skill-card__title">Performance &amp; UX</h3>
+            <div class="skill-tags" role="list">
+              <span class="tag" role="listitem">Core Web Vitals</span>
+              <span class="tag" role="listitem">Page Speed</span>
+              <span class="tag" role="listitem">Cross-browser Testing</span>
+              <span class="tag" role="listitem">Mobile-First</span>
+              <span class="tag" role="listitem">UI/UX Principles</span>
+              <span class="tag" role="listitem">WCAG 2.1</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── PROJECTS ── -->
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="section-label">Portfolio</p>
+          <h2 class="section-title" id="projects-title">Selected Projects</h2>
+          <p class="section-sub">Latest Projects</p>
+        </div>
+
+        <div class="projects__grid">
+
+          <!-- Placeholder cards — replace with real projects -->
+          <article class="project-card project-card--placeholder reveal" aria-label="Project coming soon">
+            <div class="project-card__thumb" style="padding:0;background:#111;">
+              <img src="modish-pool.png" alt="Modish Pool website screenshot"
+                style="width:100%;height:100%;object-fit:cover;display:block;" loading="lazy" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__label">WordPress</div>
+              <h3 class="project-card__title">Modish Pool</h3>
+              <p class="project-card__desc">Custom WordPress site built with the Gutenverse block theme, tailored with
+                hand-written CSS to bring a Figma design to life - responsive, on-brand, and ready to scale.</p>
+            </div>
+            <div class="project-card__footer">
+              <span class="tag">WordPress</span>
+              <span class="tag">PHP</span>
+              <span class="tag">CSS</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" aria-label="Mary Free Bed project">
+            <div class="project-card__thumb" style="padding:0;background:#111;">
+              <img src="https://image.thum.io/get/width/800/crop/600/https://www.maryfreebed.com/"
+                alt="Mary Free Bed website screenshot" style="width:100%;height:100%;object-fit:cover;display:block;"
+                loading="lazy" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__label">WordPress</div>
+              <h3 class="project-card__title">Mary Free Bed</h3>
+              <p class="project-card__desc">Full redesign from Figma; rebuilt in WordPress using Elementor and JetEngine
+                Custom Post Types for a clean, modern layout that's easy to manage and built to scale.</p>
+              <a href="https://www.maryfreebed.com/" target="_blank" rel="noopener noreferrer" class="btn btn--ghost"
+                style="margin-top:1rem;font-size:.8rem;padding:.5rem 1.1rem;border-width:1.5px;">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  width="14" height="14">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Site
+              </a>
+            </div>
+            <div class="project-card__footer">
+              <span class="tag">WordPress</span>
+              <span class="tag">Elementor</span>
+              <span class="tag">JetEngine</span>
+              <span class="tag">Figma</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" aria-label="Roc Carbon project">
+            <div class="project-card__thumb" style="padding:0;background:#111;">
+              <img src="https://image.thum.io/get/width/800/crop/600/https://www.roccarbon.com/"
+                alt="Roc Carbon website screenshot" style="width:100%;height:100%;object-fit:cover;display:block;"
+                loading="lazy" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__label">WordPress</div>
+              <h3 class="project-card__title">Roc Carbon</h3>
+              <p class="project-card__desc">Ongoing maintenance and pages redesign for a carbon industry website -
+                refreshed layouts built with Elementor, keeping the site performant, up-to-date, and on-brand.</p>
+              <a href="https://www.roccarbon.com/" target="_blank" rel="noopener noreferrer" class="btn btn--ghost"
+                style="margin-top:1rem;font-size:.8rem;padding:.5rem 1.1rem;border-width:1.5px;">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  width="14" height="14">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Site
+              </a>
+            </div>
+            <div class="project-card__footer">
+              <span class="tag">WordPress</span>
+              <span class="tag">Elementor</span>
+              <span class="tag">Maintenance</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" aria-label="Axis Builders project">
+            <div class="project-card__thumb" style="padding:0;background:#111;">
+              <img src="https://image.thum.io/get/width/800/crop/600/https://www.axis-builders.com/"
+                alt="Axis Builders website screenshot" style="width:100%;height:100%;object-fit:cover;display:block;"
+                loading="lazy" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__label">WordPress</div>
+              <h3 class="project-card__title">Axis Builders</h3>
+              <p class="project-card__desc">Ongoing maintenance for a construction company site built with Elementor;
+                content and design updates, Slider Revolution custom post types, form management, plugin updates, and
+                cache optimization to keep the site fast and reliable.</p>
+              <a href="https://www.axis-builders.com/" target="_blank" rel="noopener noreferrer" class="btn btn--ghost"
+                style="margin-top:1rem;font-size:.8rem;padding:.5rem 1.1rem;border-width:1.5px;">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  width="14" height="14">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Site
+              </a>
+            </div>
+            <div class="project-card__footer">
+              <span class="tag">WordPress</span>
+              <span class="tag">Elementor</span>
+              <span class="tag">Slider Revolution</span>
+              <span class="tag">Maintenance</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" aria-label="The Baby Fold project">
+            <div class="project-card__thumb" style="padding:0;background:#111;">
+              <img src="https://image.thum.io/get/width/800/crop/600/https://www.thebabyfold.org/"
+                alt="The Baby Fold website screenshot" style="width:100%;height:100%;object-fit:cover;display:block;"
+                loading="lazy" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__label">Joomla</div>
+              <h3 class="project-card__title">The Baby Fold</h3>
+              <p class="project-card__desc">Maintenance of a nonprofit Joomla site; plugin updates, custom CSS tweaks,
+                and ongoing support to keep the site secure, up-to-date, and running smoothly.</p>
+              <a href="https://www.thebabyfold.org/" target="_blank" rel="noopener noreferrer" class="btn btn--ghost"
+                style="margin-top:1rem;font-size:.8rem;padding:.5rem 1.1rem;border-width:1.5px;">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  width="14" height="14">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Site
+              </a>
+            </div>
+            <div class="project-card__footer">
+              <span class="tag">Joomla</span>
+              <span class="tag">Custom CSS</span>
+              <span class="tag">Maintenance</span>
+            </div>
+          </article>
+
+          <article class="project-card reveal" aria-label="ACS Openings project">
+            <div class="project-card__thumb" style="padding:0;background:#111;">
+              <img src="https://image.thum.io/get/width/800/crop/600/https://acsopenings.com/"
+                alt="ACS Openings website screenshot" style="width:100%;height:100%;object-fit:cover;display:block;"
+                loading="lazy" />
+            </div>
+            <div class="project-card__body">
+              <div class="project-card__label">WordPress</div>
+              <h3 class="project-card__title">ACS Openings</h3>
+              <p class="project-card__desc">Ongoing WordPress maintenance; plugin updates, cache and performance
+                optimization, and content updates to keep the site secure, fast, and current.</p>
+              <a href="https://acsopenings.com/" target="_blank" rel="noopener noreferrer" class="btn btn--ghost"
+                style="margin-top:1rem;font-size:.8rem;padding:.5rem 1.1rem;border-width:1.5px;">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                  width="14" height="14">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Live Site
+              </a>
+            </div>
+            <div class="project-card__footer">
+              <span class="tag">WordPress</span>
+              <span class="tag">Maintenance</span>
+              <span class="tag">Performance</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTACT ── -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="contact__grid">
+
+          <div class="reveal">
+            <p class="section-label">Get In Touch</p>
+            <h2 class="section-title" id="contact-title">Let's build something great together</h2>
+            <p class="section-sub">Open to full-time roles, freelance projects, and contract work. I'd love to hear
+              about your project.</p>
+
+            <div class="contact__links" role="list">
+              <a class="contact__link" href="mailto:mackowiakandreza@gmail.com" aria-label="Send email to Andreza">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,12 2,6" />
+                </svg>
+                <div><span class="contact__link-label">Email</span><span
+                    class="contact__link-val">mackowiakandreza@gmail.com</span></div>
+              </a>
+
+              <a class="contact__link" href="https://www.linkedin.com/in/andrezamackowiak/" target="_blank"
+                rel="noopener noreferrer" aria-label="LinkedIn profile (opens in new tab)">
+                <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+                <div><span class="contact__link-label">LinkedIn</span><span
+                    class="contact__link-val">linkedin.com/in/andrezamackowiak</span></div>
+              </a>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <form class="contact__form" action="https://api.web3forms.com/submit" method="POST"
+              aria-label="Contact form">
+              <input type="hidden" name="access_key" value="1ca1778e-eaf7-4e22-aaa5-fb21bb717800" />
+              <input type="hidden" name="subject" value="New message from your portfolio" />
+              <input type="checkbox" name="botcheck" style="display:none;" />
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email"
+                    required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="What's this about?" />
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="body" placeholder="Tell me about your project..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn--primary">
+                <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+                Send Message
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════════════ -->
+  <footer role="contentinfo">
+    <p>Designed &amp; built by <a href="#home">Andreza Mackowiak</a>,
+      <span id="year"></span>
+    </p>
+  </footer>
+
+  <!-- Back to top -->
+  <a href="#home" class="back-top" aria-label="Back to top" id="back-top">
+    <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </a>
+
+  <!-- ═══ SCRIPTS ════════════════════════════════════════════════ -->
+  <script>
+    // ── Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── Scroll-based nav shadow & active link
+    const nav = document.querySelector('.nav');
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav__links a[href^="#"]');
+    const backTop = document.getElementById('back-top');
+
+    function onScroll() {
+      const y = window.scrollY;
+      nav.classList.toggle('scrolled', y > 20);
+      backTop.classList.toggle('visible', y > 400);
+
+      // active link
+      let current = '';
+      sections.forEach(s => {
+        if (y >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ── Hamburger
+    const hamburger = document.querySelector('.nav__hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+
+    function closeMobile() {
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.getAttribute('aria-expanded') === 'true';
+      if (open) {
+        closeMobile();
+      } else {
+        hamburger.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        mobileLinks[0].focus();
+      }
+    });
+    mobileLinks.forEach(a => a.addEventListener('click', closeMobile));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobile(); });
+
+    // ── Intersection Observer reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          // stagger siblings in same parent
+          const siblings = [...entry.target.parentElement.querySelectorAll('.reveal')];
+          const idx = siblings.indexOf(entry.target);
+          entry.target.style.transitionDelay = (idx * 0.08) + 's';
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ── Smooth scroll for all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          target.setAttribute('tabindex', '-1');
+          target.focus({ preventScroll: true });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
